@@ -14,6 +14,8 @@ databases:
     plan: 0.1c-256mb
     region: frankfurt
     postgresMajorVersion: "16"
+    # Default for this tier is 15 GB; the DB is a few MB. Disk can grow later, never shrink.
+    diskSizeGB: 1
     databaseName: zupa_production
 
 services:
