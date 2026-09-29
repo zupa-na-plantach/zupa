@@ -12,7 +12,7 @@ This is the Zupa na Plantach organization project - a Rails 7 application with R
 
 #### Version Management (asdf)
 This project uses asdf for managing runtime versions. The required versions are specified in `.tool-versions`:
-- `asdf install` - Install all required runtime versions (Ruby 3.1.2, Node.js 18.20.8, Yarn 1.22.22)
+- `asdf install` - Install all required runtime versions (Ruby 3.1.7, Node.js 18.20.8, Yarn 1.22.22)
 
 If you don't have the asdf plugins installed yet:
 - `asdf plugin add ruby`
@@ -101,7 +101,7 @@ If you don't have the asdf plugins installed yet:
 ## Important Notes
 
 - Version management via asdf (see `.tool-versions`)
-- Ruby version: 3.1.2
+- Ruby version: 3.1.7
 - Node.js version: 18.20.8
 - Yarn version: 1.22.22
 - Rails version: 7.0.4
