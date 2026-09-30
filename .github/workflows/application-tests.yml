@@ -4,7 +4,12 @@ on:
   pull_request:
     branches:
       - main
-  workflow_call:
+  # Render deploys main (staging) and production only after this check passes
+  # on the pushed commit (autoDeployTrigger: checksPass in render.yaml).
+  push:
+    branches:
+      - main
+      - production
 
 jobs:
   tests:
