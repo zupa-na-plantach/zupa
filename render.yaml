@@ -32,6 +32,10 @@ services:
         value: production
       - key: RAILS_LOG_TO_STDOUT
         value: "1"
+      # Render sets WEB_CONCURRENCY by default, which puts Puma in cluster mode
+      # with an extra master process; single mode fits the 512 MB instance better.
+      - key: WEB_CONCURRENCY
+        value: "0"
       - key: REACT_API_BASE_URL
         value: /api/v1
       - key: ACTIVE_STORAGE_SERVICE
@@ -83,6 +87,10 @@ services:
         value: production
       - key: RAILS_LOG_TO_STDOUT
         value: "1"
+      # Render sets WEB_CONCURRENCY by default, which puts Puma in cluster mode
+      # with an extra master process; single mode fits the 512 MB instance better.
+      - key: WEB_CONCURRENCY
+        value: "0"
       - key: REACT_API_BASE_URL
         value: /api/v1
       - key: ACTIVE_STORAGE_SERVICE
