@@ -70,7 +70,7 @@ If you don't have the asdf plugins installed yet:
 - **Styling**: SCSS with BEM methodology, Sass compilation via esbuild
 
 ### Hosting
-- **Render** (`render.yaml` Blueprint): `main` → `zupa-staging`, `production` → `zupa-production`; auto-deploys after CI passes. Pushing to `main` deploys staging.
+- **Render** (`render.yaml` Blueprint): `main` → `zupa-staging`, `production` → `zupa` (https://zupa.onrender.com); auto-deploys after CI passes. Pushing to `main` deploys staging.
 - **Postgres**: single Render instance, databases `zupa_staging` + `zupa_production`
 - **Files**: Active Storage on Cloudflare R2 (`cloudflare` service in `config/storage.yml`, selected by `ACTIVE_STORAGE_SERVICE`)
 - Migrations run on container boot via `bin/docker-entrypoint`

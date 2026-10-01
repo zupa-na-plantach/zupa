@@ -112,7 +112,7 @@ The app is hosted on [Render](https://render.com) (Frankfurt region), configured
 | Branch | Service | Database |
 |---|---|---|
 | `main` | `zupa-staging` | `zupa_staging` |
-| `production` | `zupa-production` | `zupa_production` |
+| `production` | `zupa` (https://zupa.onrender.com) | `zupa_production` |
 
 - A push to a branch deploys it automatically once CI (`.github/workflows/application-tests.yml`) passes.
 - Both databases live on the single `zupa-db` Postgres instance.

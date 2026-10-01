@@ -65,7 +65,7 @@ Paste the output as the `GOOGLE_DRIVE_PRIVATE_KEY` value in `.env.test`.
 - The service account is `zupa-sheets@zupa-na-plantach.iam.gserviceaccount.com`.
 - Trip spreadsheets are shared publicly ("anyone with the link can view"), so the service account can read them without being added to each one.
 
-The `GOOGLE_DRIVE_*` values are set per service (`zupa-staging`, `zupa-production`) in the Render dashboard, under Environment. `GOOGLE_DRIVE_PRIVATE_KEY` can be pasted either with real newlines or with literal `\n`; the app normalizes both.
+The `GOOGLE_DRIVE_*` values are set per service (`zupa-staging`, `zupa`) in the Render dashboard, under Environment. `GOOGLE_DRIVE_PRIVATE_KEY` can be pasted either with real newlines or with literal `\n`; the app normalizes both.
 
 ## Google Maps Integration
 
@@ -73,7 +73,7 @@ The admin trip builder (`/admin/trip_builder`) uses the Maps JavaScript API to s
 
 In production, the key lives in the `zupa-na-plantach` Google Cloud project, which needs a billing account. It is restricted to:
 - the Maps JavaScript API
-- the HTTP referrers `https://zupa-staging.onrender.com/*`, `https://zupa-production.onrender.com/*` and `http://localhost:4000/*`
+- the HTTP referrers `https://zupa-staging.onrender.com/*`, `https://zupa.onrender.com/*` and `http://localhost:4000/*`
 
 Add a referrer there when the app gets a new domain.
 

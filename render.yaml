@@ -75,7 +75,8 @@ services:
         sync: false
 
   - type: web
-    name: zupa-production
+    # Service name sets the onrender subdomain: https://zupa.onrender.com
+    name: zupa
     runtime: docker
     plan: free
     region: frankfurt
