@@ -105,6 +105,27 @@ yarn ts-check                   # TypeScript type checking
 - **State Management:** React Query (server state) + Context API (app state)
 - **Styling:** SCSS with [BEM](https://getbem.com/) methodology
 
+## Deployment
+
+The app is hosted on [Render](https://render.com) (Frankfurt region), configured by the `render.yaml` Blueprint:
+
+| Branch | Service | Database |
+|---|---|---|
+| `main` | `zupa-staging` | `zupa_staging` |
+| `production` | `zupa-production` | `zupa_production` |
+
+- A push to a branch deploys it automatically once CI (`.github/workflows/application-tests.yml`) passes.
+- Both databases live on the single `zupa-db` Postgres instance.
+- Database migrations run on container boot (`bin/docker-entrypoint`).
+- Uploaded files (Active Storage) are stored in Cloudflare R2, which is S3-compatible (the `cloudflare` service in `config/storage.yml`). Buckets: `zupa-staging` and `zupa-production`.
+- Secrets (`SECRET_KEY_BASE`, Google, R2 credentials) are set per service in the Render dashboard, not in the repo.
+
+To release to production, fast-forward `production` to `main`:
+
+```bash
+git push origin main:production
+```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

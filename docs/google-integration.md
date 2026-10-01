@@ -61,13 +61,21 @@ Paste the output as the `GOOGLE_DRIVE_PRIVATE_KEY` value in `.env.test`.
 
 ### Production Setup
 
-Secrets are stored in AWS Secrets Manager. When editing `GOOGLE_DRIVE_PRIVATE_KEY` in AWS Secrets Manager, switch to **Plaintext mode** and paste the key value with `\n` as newlines. This will ensure the key is properly formatted and read by the app.
+- The Google Cloud project is `zupa-na-plantach`, owned by Zupa and not in any organization.
+- The service account is `zupa-sheets@zupa-na-plantach.iam.gserviceaccount.com`.
+- Trip spreadsheets are shared publicly ("anyone with the link can view"), so the service account can read them without being added to each one.
+
+The `GOOGLE_DRIVE_*` values are set per service (`zupa-staging`, `zupa-production`) in the Render dashboard, under Environment. `GOOGLE_DRIVE_PRIVATE_KEY` can be pasted either with real newlines or with literal `\n`; the app normalizes both.
 
 ## Google Maps Integration
 
-**Note:** Currently not actively used in the application.
+The admin trip builder (`/admin/trip_builder`) uses the Maps JavaScript API to show locations on a map. The key comes from `REACT_APP_GOOGLE_MAPS_API_KEY`.
 
-The app uses React Google Maps API for displaying map snapshots and location features.
+In production, the key lives in the `zupa-na-plantach` Google Cloud project, which needs a billing account. It is restricted to:
+- the Maps JavaScript API
+- the HTTP referrers `https://zupa-staging.onrender.com/*`, `https://zupa-production.onrender.com/*` and `http://localhost:4000/*`
+
+Add a referrer there when the app gets a new domain.
 
 ### Setup for Development
 

@@ -4,7 +4,7 @@
 # Running
 # docker run --name zupa --rm --env-file .env -p 3000:3000 zupa:slim
 
-FROM ruby:3.1.2-slim AS base
+FROM ruby:3.1.7-slim-bookworm AS base
 
 WORKDIR /rails
 

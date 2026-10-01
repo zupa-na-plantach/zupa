@@ -13,6 +13,18 @@ amazon:
   region: <%= ENV["AWS_S3_REGION"] %>
   bucket: <%= ENV["AWS_S3_BUCKET"] %>
 
+# Cloudflare R2 (S3-compatible). Newer aws-sdk-s3 versions send checksums R2
+# may reject, so only calculate/validate them when an operation requires it.
+cloudflare:
+  service: S3
+  endpoint: <%= ENV["R2_ENDPOINT"] %>
+  access_key_id: <%= ENV["R2_ACCESS_KEY_ID"] %>
+  secret_access_key: <%= ENV["R2_SECRET_ACCESS_KEY"] %>
+  region: auto
+  bucket: <%= ENV["R2_BUCKET"] %>
+  request_checksum_calculation: when_required
+  response_checksum_validation: when_required
+
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS

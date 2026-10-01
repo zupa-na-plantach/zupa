@@ -4,7 +4,12 @@ on:
   pull_request:
     branches:
       - main
-  workflow_call:
+  # Render deploys main (staging) and production only after this check passes
+  # on the pushed commit (autoDeployTrigger: checksPass in render.yaml).
+  push:
+    branches:
+      - main
+      - production
 
 jobs:
   tests:
@@ -34,7 +39,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.2
+          ruby-version: 3.1.7
           bundler-cache: true
 
       - uses: actions/setup-node@v4

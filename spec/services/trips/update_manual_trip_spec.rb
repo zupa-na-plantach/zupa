@@ -8,10 +8,12 @@ RSpec.describe Trips::UpdateManualTrip do
   let!(:person_b) { create(:person, location: loc_b, active: true, sandwiches: 3) }
   let(:driver) { create(:volunteer) }
   let(:helper) { create(:volunteer) }
+  let(:trip_date) { Date.current + 7 }
+  let(:new_date) { Date.current + 14 }
 
   def create_trip
     Trips::CreateManualTrip.new.call(
-      date: Date.new(2026, 7, 1),
+      date: trip_date,
       organiser: admin,
       groups: [{location_ids: [loc_a.id], driver_ids: [], volunteer_ids: []}]
     ).value!
@@ -22,14 +24,14 @@ RSpec.describe Trips::UpdateManualTrip do
 
     result = described_class.new.call(
       trip: trip,
-      date: Date.new(2026, 7, 8),
+      date: new_date,
       organiser: other_admin,
       groups: [{location_ids: [loc_b.id], driver_ids: [driver.id], volunteer_ids: [helper.id]}]
     )
 
     expect(result).to be_success
     trip.reload
-    expect(trip.date).to eq(Date.new(2026, 7, 8))
+    expect(trip.date).to eq(new_date)
     expect(trip.organiser).to eq(other_admin)
     expect(trip.groups.count).to eq(1)
 
@@ -43,14 +45,14 @@ RSpec.describe Trips::UpdateManualTrip do
   it "replaces the access code on update" do
     trip = create_trip
     Trips::UpdateManualTrip.new.call(
-      trip: trip, date: Date.new(2026, 7, 8), organiser: admin,
+      trip: trip, date: new_date, organiser: admin,
       groups: [{location_ids: [loc_a.id]}], access_code: "newcode1"
     )
     expect(trip.reload.auth_code.value).to eq("newcode1")
     expect(AuthCode.where(trip: trip).count).to eq(1)
 
     Trips::UpdateManualTrip.new.call(
-      trip: trip, date: Date.new(2026, 7, 8), organiser: admin,
+      trip: trip, date: new_date, organiser: admin,
       groups: [{location_ids: [loc_a.id]}], access_code: ""
     )
     expect(trip.reload.auth_code).to be_nil
@@ -68,10 +70,10 @@ RSpec.describe Trips::UpdateManualTrip do
   end
 
   it "converts a sheet trip to a manual trip" do
-    sheet_trip = create(:trip, organiser: admin, date: Date.new(2026, 7, 1), source: "sheet")
+    sheet_trip = create(:trip, organiser: admin, date: trip_date, source: "sheet")
 
     result = described_class.new.call(
-      trip: sheet_trip, date: Date.new(2026, 7, 8), organiser: admin,
+      trip: sheet_trip, date: new_date, organiser: admin,
       groups: [{location_ids: [loc_b.id]}]
     )
 

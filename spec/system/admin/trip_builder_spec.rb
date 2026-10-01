@@ -106,7 +106,7 @@ RSpec.describe "Admin trip builder", type: :system do
   it "opens an existing manual trip at Step 3 and saves changes" do
     alfa = Location.find_by(name: "Miejsce Alfa")
     trip = Trips::CreateManualTrip.new.call(
-      date: Date.new(2026, 7, 1), organiser: admin_user,
+      date: Date.current + 7, organiser: admin_user,
       groups: [{location_ids: [alfa.id], driver_ids: [], volunteer_ids: []}]
     ).value!
 

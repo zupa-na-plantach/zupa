@@ -66,10 +66,11 @@ RSpec.describe "AdminArea::TripBuilder", type: :request do
 
   describe "PATCH /admin_area/trip_builder/:id" do
     let(:other_location) { create(:location, name: "Miejsce B", status: "active") }
+    let(:new_date) { Date.current + 14 }
 
     def manual_trip
       Trips::CreateManualTrip.new.call(
-        date: Date.new(2026, 7, 1), organiser: admin_user,
+        date: Date.current + 7, organiser: admin_user,
         groups: [{location_ids: [location.id], driver_ids: [], volunteer_ids: []}]
       ).value!
     end
@@ -79,7 +80,7 @@ RSpec.describe "AdminArea::TripBuilder", type: :request do
 
       patch "/admin_area/trip_builder/#{trip.id}",
         params: {
-          date: "2026-07-08",
+          date: new_date.iso8601,
           admin_user_id: admin_user.id,
           groups: [{location_ids: [other_location.id], driver_ids: [driver.id], volunteer_ids: [helper.id]}]
         },
@@ -88,7 +89,7 @@ RSpec.describe "AdminArea::TripBuilder", type: :request do
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)["redirect_to"]).to eq("/admin/trips/#{trip.id}")
       trip.reload
-      expect(trip.date).to eq(Date.new(2026, 7, 8))
+      expect(trip.date).to eq(new_date)
       expect(trip.groups.first.trip_destinations.map { |d| d.location }).to eq([other_location])
     end
 
@@ -97,7 +98,7 @@ RSpec.describe "AdminArea::TripBuilder", type: :request do
       trip.update_column(:date, Date.yesterday)
 
       patch "/admin_area/trip_builder/#{trip.id}",
-        params: {date: "2026-07-08", admin_user_id: admin_user.id, groups: [{location_ids: [other_location.id]}]},
+        params: {date: new_date.iso8601, admin_user_id: admin_user.id, groups: [{location_ids: [other_location.id]}]},
         as: :json
 
       expect(response).to have_http_status(:unprocessable_entity)
