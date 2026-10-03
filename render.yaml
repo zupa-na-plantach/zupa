@@ -78,7 +78,8 @@ services:
     # Service name sets the onrender subdomain: https://zupa.onrender.com
     name: zupa
     runtime: docker
-    plan: free
+    # Always on (Starter, 0.5 CPU / 512 MB); the free plan sleeps after 15 min idle
+    plan: starter
     region: frankfurt
     branch: production
     autoDeployTrigger: checksPass
