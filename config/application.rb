@@ -1,7 +1,6 @@
 require_relative "boot"
 
 require "rails/all"
-require_relative "../lib/legacy_host_redirect"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -32,10 +31,5 @@ module Zupa
     end
 
     config.i18n.default_locale = :pl
-
-    # Old domains (comma-separated REDIRECT_HOSTS) get a 301 to HOST.
-    config.middleware.insert_before 0, LegacyHostRedirect,
-      hosts: ENV.fetch("REDIRECT_HOSTS", "").split(","),
-      target: ENV["HOST"]
   end
 end
