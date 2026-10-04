@@ -120,7 +120,7 @@ The app is hosted on [Render](https://render.com) (Frankfurt region), configured
 - Uploaded files (Active Storage) are stored in Cloudflare R2, which is S3-compatible (the `cloudflare` service in `config/storage.yml`). Buckets: `zupa-staging` and `zupa-production`.
 - Secrets (`SECRET_KEY_BASE`, Google, R2 credentials) are set per service in the Render dashboard, not in the repo.
 
-- The old domain `zupa.lunarlogic.io` (and `www.`) points at the `zupa` service as a Render custom domain. The app answers it with a 301 to `HOST` (`REDIRECT_HOSTS` in `render.yaml`, handled by `lib/legacy_host_redirect.rb`).
+- The old domains `zupa.lunarlogic.io` and `zupa.lunarlogic.com` (each also with `www.`) point at the `zupa` service as Render custom domains. The app answers them with a 301 to `HOST` (`REDIRECT_HOSTS` in `render.yaml`, handled by `lib/legacy_host_redirect.rb`).
 
 To release to production, fast-forward `production` to `main`:
 

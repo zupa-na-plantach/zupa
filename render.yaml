@@ -102,7 +102,7 @@ services:
       # Old domains, 301-redirected to HOST (see lib/legacy_host_redirect.rb).
       # They must also be added as custom domains on this service in Render.
       - key: REDIRECT_HOSTS
-        value: zupa.lunarlogic.io,www.zupa.lunarlogic.io
+        value: zupa.lunarlogic.io,www.zupa.lunarlogic.io,zupa.lunarlogic.com,www.zupa.lunarlogic.com
       - key: DATABASE_URL
         fromDatabase:
           name: zupa-db
