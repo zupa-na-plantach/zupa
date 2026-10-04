@@ -17,7 +17,9 @@ RSpec.configure do |config|
       headless: ENV.fetch("HEADLESS", "true") != "false",
       inspector: ENV.key?("INSPECTOR"),
       slowmo: ENV["SLOWMO"]&.to_f,
-      process_timeout: 10
+      # Chrome can take >10s to start on a cold CI runner; the first system
+      # spec then failed with Ferrum::ProcessTimeoutError.
+      process_timeout: 30
     }
   end
 
