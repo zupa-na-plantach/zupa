@@ -12,6 +12,18 @@ describe Trips::ParseGoogleSpreadsheet do
     expect(spreadsheet.rows[13].first).to eq("GR 3: Alan Wake*, Książe Persii, Bezimienny")
   end
 
+  it "reads the first worksheet that has data, skipping empty leading tabs" do
+    empty_tab = double(num_rows: 0, rows: [])
+    data_tab = double(num_rows: 2, rows: [["GR 1: Anna"], ["Location 1 - x"]])
+    spreadsheet = double(worksheets: [empty_tab, data_tab])
+    session = double(spreadsheet_by_key: spreadsheet)
+    allow(GoogleDrive::Session).to receive(:from_service_account_key).and_return(session)
+
+    result = described_class.new.call(spreadsheet_url: "https://docs.google.com/spreadsheets/d/abc/edit")
+
+    expect(result.rows).to eq([["GR 1: Anna"], ["Location 1 - x"]])
+  end
+
   it "raises a friendly error when the sheet is not accessible" do
     allow(GoogleDrive::Session).to receive(:from_service_account_key)
       .and_raise(Google::Apis::ClientError.new("forbidden"))

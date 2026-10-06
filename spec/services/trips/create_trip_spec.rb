@@ -75,4 +75,23 @@ describe Trips::CreateTrip do
       expect(first_destination.location_snapshot["name"]).to eq("Location 1")
     end
   end
+
+  describe "when the parsed sheet yields no groups" do
+    it "raises EmptyTripDataError and creates no trip" do
+      builder = instance_double(Trips::BuildTripData, call: double(groups: []))
+
+      expect {
+        described_class.new(build_trip_data: builder).call(
+          {
+            date: "2024-02-08",
+            source_spreadsheet_url: spreadsheet_url,
+            admin_user_id: admin.id,
+            active: true
+          }
+        )
+      }.to raise_error(Trips::EmptyTripDataError)
+
+      expect(Trip.count).to eq(0)
+    end
+  end
 end

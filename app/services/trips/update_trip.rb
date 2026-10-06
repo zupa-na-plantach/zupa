@@ -11,6 +11,8 @@ module Trips
 
       trip_data = build_trip_data.call(date: date, spreadsheet_url: spreadsheet_url)
 
+      raise EmptyTripDataError if trip_data.groups.empty?
+
       validation = validate_destinations(trip_data)
 
       if validation == true

@@ -46,4 +46,20 @@ describe Trips::UpdateTrip do
     expect(destinations.pluck(:soups)).to eq([88, 99])
     expect(destinations.pluck(:sandwiches)).to eq([10, 11])
   end
+
+  it "raises EmptyTripDataError and preserves existing groups when the sheet yields none" do
+    trip = create(:trip, date: "2025-05-11", source_spreadsheet_url: "https://old.io")
+    create(:trip_group, trip: trip, volunteer_names: ["*Dyzio"])
+
+    builder = instance_double(Trips::BuildTripData, call: instance_double(Trips::TripData, groups: []))
+
+    expect {
+      described_class.new(build_trip_data: builder).call(
+        id: trip.id,
+        params: {date: "2024-02-29", source_spreadsheet_url: "https://new.com", active: false}
+      )
+    }.to raise_error(Trips::EmptyTripDataError)
+
+    expect(trip.reload.groups.count).to eq(1)
+  end
 end
